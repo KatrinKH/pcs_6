@@ -72,6 +72,7 @@ flutter:
   - assets/images/10.Alan_Wake_2.jpg
   - assets/images/11.God_of_War-_Ragnarok.jpg
   - assets/new/1.Mortal_Kombat_1_Chaos_Reigns.jpg
+  - assets/profile/unknown.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
