@@ -9,8 +9,8 @@ class UserData {
 
   UserData._internal();
 
-  String name = 'Хомик Екатерина Андреевна';
-  String group = 'ЭФБО-06-22'; 
+  String name = 'Unknown';
+  String group = 'Unknown'; 
   String email = 'example@gmail.com';
   String city = 'Москва';
 
