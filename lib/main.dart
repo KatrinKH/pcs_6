@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo 米可-06',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 126, 96, 178)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 126, 96, 178)),
         useMaterial3: true,
       ),
       home: const MyHomePage(),
@@ -36,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   List<Note> _favoriteNotes = []; 
+  List<Note> _cart = []; 
 
   void _toggleFavorite(Note note) {
     setState(() {
@@ -57,6 +59,22 @@ class _MyHomePageState extends State<MyHomePage> {
     return _favoriteNotes.contains(note);
   }
 
+  void _addToCart(Note note) {
+    setState(() {
+      _cart.add(note);
+    });
+  }
+
+  void _removeFromCart(Note note) {
+    setState(() {
+      _cart.remove(note);
+    });
+  }
+
+  bool _isCartEmpty() {
+    return _cart.isEmpty;
+  }
+
   List<Widget> _widgetOptions() {
     return [
       HomePage(
@@ -66,9 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       FavoritesPage(
         favoriteNotes: _favoriteNotes,
-        onRemoveFromFavorites: _removeFromFavorites, 
+        onRemoveFromFavorites: _removeFromFavorites,
       ),
-      const ProfilePage(),
+      const ProfilePage()
     ];
   }
 
@@ -81,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions().elementAt(_selectedIndex), 
+      body: _widgetOptions().elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -95,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Профиль',
-          ),
+          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: const Color.fromARGB(255, 32, 100, 156),
