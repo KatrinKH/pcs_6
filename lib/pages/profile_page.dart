@@ -13,12 +13,15 @@ class UserData {
   String group = 'Unknown'; 
   String email = 'example@gmail.com';
   String city = 'Москва';
+  String phoneNumber = 'Unknown';  // Added phone number field
 
-  void updateUserData(String newName, String newGroup, String newEmail, String newCity) {
+  // Updated method to include phone number
+  void updateUserData(String newName, String newGroup, String newEmail, String newCity, String newPhoneNumber) {
     name = newName;
     group = newGroup; 
     email = newEmail;
     city = newCity;
+    phoneNumber = newPhoneNumber;  // Update phone number
   }
 }
 
@@ -40,6 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
         final TextEditingController groupController = TextEditingController(text: _userData.group);
         final TextEditingController emailController = TextEditingController(text: _userData.email);
         final TextEditingController cityController = TextEditingController(text: _userData.city);
+        final TextEditingController phoneController = TextEditingController(text: _userData.phoneNumber);  // Controller for phone number
 
         return AlertDialog(
           title: const Text('Редактировать профиль'),
@@ -55,6 +59,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   keyboardType: TextInputType.emailAddress,
                 ),
                 TextField(controller: cityController, decoration: const InputDecoration(labelText: 'Город')),
+                TextField(
+                  controller: phoneController,
+                  decoration: const InputDecoration(labelText: 'Телефон'),
+                  keyboardType: TextInputType.phone,  // Keyboard for phone numbers
+                ),
               ],
             ),
           ),
@@ -71,6 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   groupController.text,
                   emailController.text,
                   cityController.text,
+                  phoneController.text,  // Save the phone number
                 );
                 Navigator.of(context).pop();
                 setState(() {});
@@ -128,6 +138,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   const Text('Город:', style: TextStyle(fontSize: 16, color: Colors.grey)),
                   const SizedBox(width: 10),
                   Text(_userData.city, style: const TextStyle(fontSize: 16))]),
+              const SizedBox(height: 10),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Телефон:', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                  const SizedBox(width: 10),
+                  Text(_userData.phoneNumber, style: const TextStyle(fontSize: 16))]),
               const SizedBox(height: 20),
 
               ElevatedButton(
