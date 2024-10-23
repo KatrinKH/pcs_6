@@ -48,6 +48,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     );
   }
 
+  double _calculateTotal() {
+    double total = 0.0;
+    for (var item in widget.cartItems) {
+      total += item.price; 
+    }
+    return total;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,33 +69,67 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             )
-          : ListView.builder(
-              itemCount: widget.cartItems.length,
-              itemBuilder: (context, index) {
-                final note = widget.cartItems[index];
-                return Slidable(
-                  child: Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: ListTile(
-                      leading: Image.asset(note.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
-                      title: Text(note.title),
-                      subtitle: Text('Цена: ${note.price} рублей'),
-                    ),
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: widget.cartItems.length,
+                    itemBuilder: (context, index) {
+                      final note = widget.cartItems[index];
+                      return Slidable(
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          child: ListTile(
+                            leading: Image.asset(note.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
+                            title: Text(note.title),
+                            subtitle: Text('Цена: ${note.price} рублей'),
+                          ),
+                        ),
+                        endActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) => _confirmRemoval(note),
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: 'Удалить',
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  endActionPane: ActionPane(
-                    motion: const StretchMotion(),
+                ),
+
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  color: const Color(0xFF67BEEA), 
+                  child: Column(
                     children: [
-                      SlidableAction(
-                        onPressed: (context) => _confirmRemoval(note),
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Удалить',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Общая сумма:',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                          Flexible(
+                            child: Text(
+                              '${_calculateTotal().toStringAsFixed(2)} рублей',
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                              overflow: TextOverflow.ellipsis, 
+                              maxLines: 1, 
+                            ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 10), 
                     ],
                   ),
-                );
-              },
+                ),
+                const SizedBox(height: 10), 
+              ],
             ),
     );
   }
