@@ -3,11 +3,12 @@ class Note {
   final String title;
   final String textNote;
   final String textMain;
-  final String imageUrl; 
-  final double price; 
-  final String genre; 
-  final String developer; 
-  final String releaseDate; 
+  final String imageUrl;
+  final double price;
+  final String genre;
+  final String developer;
+  final String releaseDate;
+  int quantity; 
 
   Note({
     required this.id,
@@ -19,13 +20,13 @@ class Note {
     required this.genre,
     required this.developer,
     required this.releaseDate,
+    this.quantity = 1, 
   });
 
   @override
   String toString() {
-    return 'Note{id: $id, title: $title, textNote: $textNote, textMain: $textMain, imageUrl: $imageUrl, price: $price, genre: $genre, developer: $developer, releaseDate: $releaseDate}';
-    }
-
+    return 'Note{id: $id, title: $title, textNote: $textNote, textMain: $textMain, imageUrl: $imageUrl, price: $price, genre: $genre, developer: $developer, releaseDate: $releaseDate, quantity: $quantity}';
+  }
 }
 
 final List<Note> notes = [

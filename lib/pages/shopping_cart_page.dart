@@ -51,9 +51,23 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   double _calculateTotal() {
     double total = 0.0;
     for (var item in widget.cartItems) {
-      total += item.price; 
+      total += item.price * item.quantity; 
     }
     return total;
+  }
+
+  void _incrementQuantity(Note note) {
+    setState(() {
+      note.quantity++;
+    });
+  }
+
+  void _decrementQuantity(Note note) {
+    setState(() {
+      if (note.quantity > 1) {
+        note.quantity--;
+      }
+    });
   }
 
   @override
@@ -82,7 +96,25 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           child: ListTile(
                             leading: Image.asset(note.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
                             title: Text(note.title),
-                            subtitle: Text('Цена: ${note.price} рублей'),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Цена: ${note.price} рублей'),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.remove),
+                                      onPressed: () => _decrementQuantity(note),
+                                    ),
+                                    Text('${note.quantity}'), // Display quantity
+                                    IconButton(
+                                      icon: const Icon(Icons.add),
+                                      onPressed: () => _incrementQuantity(note),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         endActionPane: ActionPane(
@@ -101,7 +133,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                     },
                   ),
                 ),
-
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   color: const Color(0xFF67BEEA), 
