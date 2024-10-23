@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pcs_6/model/note.dart';
 
 class ShoppingCartPage extends StatefulWidget {
@@ -20,12 +21,38 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     ));
   }
 
+  void _confirmRemoval(Note note) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Подтверждение удаления'),
+          content: Text('Вы уверены, что хотите удалить "${note.title}" из корзины?'),
+          actions: [
+            TextButton(
+              child: const Text('Отмена'),
+              onPressed: () {
+                Navigator.of(context).pop(); 
+              },
+            ),
+            TextButton(
+              child: const Text('Удалить'),
+              onPressed: () {
+                _removeFromCart(note);
+                Navigator.of(context).pop(); 
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Корзина'),
-        // Removed the delete all items button
       ),
       body: widget.cartItems.isEmpty
           ? const Center(
@@ -38,22 +65,30 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               itemCount: widget.cartItems.length,
               itemBuilder: (context, index) {
                 final note = widget.cartItems[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: ListTile(
-                    leading: Image.asset(note.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
-                    title: Text(note.title),
-                    subtitle: Text('Цена: ${note.price} рублей'),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.remove_shopping_cart),
-                      onPressed: () {
-                        _removeFromCart(note); 
-                      },
+                return Slidable(
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: ListTile(
+                      leading: Image.asset(note.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
+                      title: Text(note.title),
+                      subtitle: Text('Цена: ${note.price} рублей'),
                     ),
+                  ),
+                  endActionPane: ActionPane(
+                    motion: const StretchMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) => _confirmRemoval(note),
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Удалить',
+                      ),
+                    ],
                   ),
                 );
               },
-            ),    
+            ),
     );
   }
 
