@@ -25,19 +25,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Корзина'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              setState(() {
-                widget.cartItems.clear(); 
-              });
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Товары удалены!'),
-              ));
-            },
-          ),
-        ],
+        // Removed the delete all items button
       ),
       body: widget.cartItems.isEmpty
           ? const Center(
