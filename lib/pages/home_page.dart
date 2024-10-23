@@ -77,6 +77,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Видеоигры'),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: _navigateToAddNotePage,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.shopping_cart),
@@ -119,12 +123,6 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _navigateToAddNotePage,
-        backgroundColor: const Color.fromARGB(255, 78, 255, 65),
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
